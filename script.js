@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const socket = io();
-  
+    const socket = io('https://real-time-chatting.onrender.com'); // Update with your actual URL
+    
     const messageContainer = document.getElementById('message-container');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
@@ -44,4 +44,5 @@ document.addEventListener('DOMContentLoaded', function () {
       messageContainer.scrollTop = messageContainer.scrollHeight;
     });
   });
+
   
