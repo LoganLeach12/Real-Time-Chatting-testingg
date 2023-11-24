@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const socket = io('https://real-time-chatting.onrender.com'); // Update with your actual URL
-    
+    const socket = io();
+  
     const messageContainer = document.getElementById('message-container');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
