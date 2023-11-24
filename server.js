@@ -29,7 +29,5 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on https://real-time-chatting.onrender.com:${PORT}`);
 });
-
-
