@@ -43,6 +43,4 @@ document.addEventListener('DOMContentLoaded', function () {
       messageContainer.appendChild(leaveMessage);
       messageContainer.scrollTop = messageContainer.scrollHeight;
     });
-  });
-
-  
+});
