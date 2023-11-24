@@ -1,36 +1,47 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const cors = require('cors'); // Add this line for CORS support
-const path = require('path');
+document.addEventListener('DOMContentLoaded', function () {
+    // Update the connection URL based on your server's location
+    const socket = io('https://real-time-chatting.onrender.com');
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+    const messageContainer = document.getElementById('message-container');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
 
-// Serve static files
-app.use(express.static(__dirname));
-app.use(cors()); // Enable CORS
+    sendButton.addEventListener('click', function (e) {
+      e.preventDefault();
+      sendMessage();
+    });
 
-// Socket.io events
-io.on('connection', (socket) => {
-  console.log('a user connected');
+    document.getElementById('send-container').addEventListener('submit', function (e) {
+      e.preventDefault();
+      sendMessage();
+    });
 
-  // Broadcast to all clients when a user joins
-  socket.broadcast.emit('user joined', 'User');
+    function sendMessage() {
+      const message = messageInput.value;
+      if (message.trim() !== '') {
+        socket.emit('chat message', message);
+        messageInput.value = '';
+      }
+    }
 
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+    socket.on('chat message', function (msg) {
+      const messageElement = document.createElement('div');
+      messageElement.textContent = msg;
+      messageContainer.appendChild(messageElement);
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    });
+
+    socket.on('user joined', function (username) {
+      const joinMessage = document.createElement('div');
+      joinMessage.textContent = `${username} joined the chat`;
+      messageContainer.appendChild(joinMessage);
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    });
+
+    socket.on('user left', function (username) {
+      const leaveMessage = document.createElement('div');
+      leaveMessage.textContent = `${username} left the chat`;
+      messageContainer.appendChild(leaveMessage);
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    });
   });
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-    io.emit('user left', 'User');
-  });
-});
-
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
