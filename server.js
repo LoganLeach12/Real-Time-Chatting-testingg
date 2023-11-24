@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const cors = require('cors'); // Add this line for CORS support
 const path = require('path');
 
 const app = express();
@@ -9,6 +10,7 @@ const io = socketIo(server);
 
 // Serve static files
 app.use(express.static(__dirname));
+app.use(cors()); // Enable CORS
 
 // Socket.io events
 io.on('connection', (socket) => {
@@ -31,3 +33,4 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
