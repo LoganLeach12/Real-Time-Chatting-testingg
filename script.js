@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const messageContainer = document.getElementById('message-container');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
+
+    const name = promt('What is your nsmr?')
+    appendMessage('You joined')
+    socket.emit('new-user', name)
   
     sendButton.addEventListener('click', function (e) {
       e.preventDefault();
